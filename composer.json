@@ -1,8 +1,5 @@
 {
     "require": {
         "phpunit/phpunit": "^5.1"
-    },    
-    "autoload": {
-        "psr-4": {"Test\\": "/var/www/html/practice-project/"}
     }
 }
