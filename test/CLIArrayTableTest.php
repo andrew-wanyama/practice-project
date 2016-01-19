@@ -1,22 +1,20 @@
 <?php
-class ArrayTableTest extends PHPUnit_Framework_TestCase {
-    //store our object here
-    private $myArrayTable;
-    
-    protected function setUp() {
-        $this->myArrayTable = new \Test\ArrayTable();        
-    }  
-    protected function tearDown() {
-        unset($this->myArrayTable);        
+class CLIArrayTableTest extends PHPUnit_Framework_TestCase{
+    private $arrayTable;
+    //instantiate an object of the class
+    public function setUp() {
+        $this->arrayTable = new \Test\CLIArrayTable([['foo'=>'bar'],['foo'=>'baz']]);
     }
-    //test class is properly instantiated
-    public function testInstantiation() {
-        $this->assertInstanceOf('\Test\ArrayTable', $this->myArrayTable);        
+    //test for correct values within the array
+    /*
+    public function testShowArrayTable(){
+        $expected = $this->arrayTable->showArrayTable();
+        $this->assertEquals($expected, 'bar');
     }
-    //test to ensure we pass a 2D array
-    public function testgetArray() {
-        $array = [['foo'=>'bar'],['foo'=>'baz']];
-        $this->myArrayTable->getArray($array);
-        $this->assertCount(2, $array);        
+     * 
+     */
+    //test that output is a string
+    public function testShowArrayTable() {
+        $this->assertTrue(is_string($this->arrayTable->showArrayTable()));
     }
 }
