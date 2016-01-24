@@ -3,6 +3,6 @@
         "phpunit/phpunit": "^5.1"
     },    
     "autoload": {
-        "psr-4": {"Test\\": "src/Test/"}
+        "psr-4": {"SMSApplication\\": "src/SMSApplication/"}
     }
 }
