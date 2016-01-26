@@ -12,7 +12,7 @@ class CLIArrayTableTest extends PHPUnit_Framework_TestCase {
     //Test that SUT throws exception when wrong arguments are passed to constructor
     public function testException_InvalidConstructorArgs() {
         try {
-            $this->arrayTable = new \SMSApplication\CLIArrayTable([['foo' => 'bar'], ['foo' => 'baz']]);
+            $this->arrayTable = new \SMSApplication\CLIArrayTable(['foo' => 'bar']);
         } catch (Exception $ex) {
             $this->assertEquals($ex->getMessage(), "Sorry, constructor requires a 2D array argument.");
             return;
