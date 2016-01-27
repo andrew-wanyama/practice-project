@@ -12,7 +12,7 @@ class CLIArrayTableTest extends PHPUnit_Framework_TestCase {
     //Test that SUT throws exception when empty array argument's passed to constructor
     public function testException_EmptyArrayConstructorArg() {
         try {
-            $this->arrayTable = new \SMSApplication\CLIArrayTable([['foo' => 'bar'], ['foo' => 'baz']]);
+            $this->arrayTable = new \SMSApplication\CLIArrayTable([]);
         } catch (Exception $ex) {
             $this->assertEquals($ex->getMessage(), "Sorry, constructor requires a non-empty array argument.");
             return;
@@ -23,7 +23,7 @@ class CLIArrayTableTest extends PHPUnit_Framework_TestCase {
     //Test that SUT throws exception when wrong arguments are passed to constructor
     public function testException_InvalidConstructorArgs() {
         try {
-            $this->arrayTable = new \SMSApplication\CLIArrayTable([['foo' => 'bar', 'baz' => 'foobar'], ['baz' => 'foobar']]);
+            $this->arrayTable = new \SMSApplication\CLIArrayTable([[], []]);
         } catch (Exception $ex) {
             $this->assertEquals($ex->getMessage(), "Sorry, constructor requires a non-empty 2D array argument.");
             return;
