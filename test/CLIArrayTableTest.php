@@ -62,12 +62,18 @@ class CLIArrayTableTest extends PHPUnit_Framework_TestCase {
 
     public function testException_NonArrayArgs() {
         try {
-            $this->arrayTable = new \SMSApplication\CLIArrayTable([['foo' => 'bar'], ['foo' => 'baz']]);
+            $this->arrayTable = new \SMSApplication\CLIArrayTable('bar');
         } catch (Exception $ex) {
             $this->assertEquals($ex->getMessage(), "Sorry, constructor requires a non-empty array argument.");
             return;
         }
         $this->fail("Expected Exception has not been raised.");
+    }
+
+    public function testException_MoreThan2DArrayArgs() {
+        $this->setExpectedException("Exception");
+        $this->arrayTable = new \SMSApplication\CLIArrayTable([['foo' => 'bar'], ['foo' => 'baz']]);
+        $this->arrayTable->toString();
     }
 
 }

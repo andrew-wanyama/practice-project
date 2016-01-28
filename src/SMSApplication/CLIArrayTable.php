@@ -27,6 +27,9 @@ class CLIArrayTable {
     public function toString() {
         foreach ($this->myArray as $myArrays) {
             foreach ($myArrays as $key => $value) {
+                if (is_array($value)) {
+                    throw new \Exception("Please provide only a 2D array.");
+                }
                 $this->array_columns[$key] = array_column($this->myArray, $key);
             }
         }
@@ -41,7 +44,11 @@ class CLIArrayTable {
     }
 
     public function __toString() {
-        return $this->toString();
+        try {
+            return $this->toString();
+        } catch (\Exception $ex) {
+            return "{$ex->getMessage()}\n";
+        }
     }
 
 }
