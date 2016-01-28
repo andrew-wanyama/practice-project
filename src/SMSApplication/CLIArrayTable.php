@@ -7,8 +7,8 @@ class CLIArrayTable {
     private $myArray;
     private $array_columns = [];
 
-    public function __construct(array $my2DArray) {
-        if (empty($my2DArray)) {
+    public function __construct($my2DArray) {
+        if (!is_array($my2DArray) || empty($my2DArray)) {
             throw new \Exception("Sorry, constructor requires a non-empty array argument.");
         }
         foreach ($my2DArray as $myArray) {
