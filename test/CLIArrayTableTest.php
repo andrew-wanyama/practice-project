@@ -4,11 +4,6 @@ class CLIArrayTableTest extends PHPUnit_Framework_TestCase {
 
     private $arrayTable;
 
-    //instantiate an object of the class
-    public function setUp() {
-        $this->arrayTable = new \SMSApplication\CLIArrayTable([['foo' => 'bar'], ['foo' => 'baz']]);
-    }
-
     /**
      * @expectedException Exception
      * @expectedExceptionMessage Sorry, constructor requires a non-empty array argument.
@@ -27,11 +22,13 @@ class CLIArrayTableTest extends PHPUnit_Framework_TestCase {
 
     //test that output is a string
     public function testToString() {
+        $this->arrayTable = new \SMSApplication\CLIArrayTable([['foo' => 'bar'], ['foo' => 'baz']]);
         $this->assertTrue(is_string($this->arrayTable->toString()));
     }
 
     //assert correct representation of array as a string
     public function testToString_RightFormat() {
+        $this->arrayTable = new \SMSApplication\CLIArrayTable([['foo' => 'bar'], ['foo' => 'baz']]);
         $strOutput = "\nfoo\n........\n";
         $strOutput .= "0|bar\n";
         $strOutput .= "1|baz\n";
