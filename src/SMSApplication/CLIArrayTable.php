@@ -13,17 +13,23 @@ class CLIArrayTable {
         }
         $isFirstRow = true;
         foreach ($my2DArray as $rowNumber => $row) {
+            if (!is_array($row) || empty($row)) {
+                throw new \Exception("Sorry, constructor requires a non-empty 2D array argument.");
+            } else {
+                foreach ($row as $subRows) {
+                    if (is_array($subRows)) {
+                        throw new \Exception("Sorry, constructor requires only a 2D array argument.");
+                    }
+                }
+                $this->myArray = $my2DArray;
+            }
+
             if (!$isFirstRow) {
                 $currentKeys = array_keys($row);
                 $intersection = array_intersect($currentKeys, $previousKeys);
                 if (count($intersection) !== count($row) || count($intersection) !== count($previousKeys)) {
                     throw new \Exception("Sorry row $rowNumber does not contain all the keys.");
                 }
-            }
-            if (!is_array($row) || empty($row)) {
-                throw new \Exception("Sorry, constructor requires a non-empty 2D array argument.");
-            } else {
-                $this->myArray = $my2DArray;
             }
             $isFirstRow = false;
             $previousKeys = array_keys($row);
@@ -37,9 +43,7 @@ class CLIArrayTable {
     public function toString() {
         foreach ($this->myArray as $myArrays) {
             foreach ($myArrays as $key => $value) {
-                if (is_array($value)) {
-                    throw new \Exception("Please provide only a 2D array.");
-                }
+
                 $this->array_columns[$key] = array_column($this->myArray, $key);
             }
         }
