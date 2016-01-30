@@ -55,7 +55,6 @@ class CLIArrayTableTest extends PHPUnit_Framework_TestCase {
      */
     public function testException_MoreThan2DArrayArgs() {
         $this->arrayTable = new \SMSApplication\CLIArrayTable([['foo' => 'bar', 'foo' => 'baz', ['foo' => 'bar', 'foo' => 'baz']]]);
-        $this->arrayTable->toString();
     }
 
 }
