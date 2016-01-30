@@ -35,13 +35,11 @@ class CLIArrayTableTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($this->arrayTable->toString(), $strOutput);
     }
 
+    /**
+     * @expectedException \Exception
+     */
     public function testToString_RightFormatCase2() {
-        $this->arrayTable = new \SMSApplication\CLIArrayTable([['foo' => 'bar', 'baz' => 'foobar'], ['baz' => 'foobar']]);
-        $strOutput = "\nfoo\n........\n0|bar\n";
-        $strOutput .= "\nbaz\n........\n0|foobar\n1|foobar\n";
-        $this->assertEquals($this->arrayTable->toString(), $strOutput);
-    }
-
+        new \SMSApplication\CLIArrayTable([['foo' => 'bar', 'baz' => 'foobar'], ['baz' => 'foobar']]);
     }
 
     /**
