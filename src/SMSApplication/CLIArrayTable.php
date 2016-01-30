@@ -43,15 +43,30 @@ class CLIArrayTable {
     public function toString() {
         foreach ($this->myArray as $myArrays) {
             foreach ($myArrays as $key => $value) {
-
                 $this->array_columns[$key] = array_column($this->myArray, $key);
             }
         }
+
+        echo "Please specify the count at which to start numbering rows: ";
+        $handle = fopen("php://stdin", "r");
+        $startAt = trim(fgets($handle));
+        if (!($startAt)) {
+            $separator = 0;
+        }
+        echo "Please specify the separating character: ";
+        $handle2 = fopen("php://stdin", "r");
+        $separator = trim(fgets($handle2));
+        if (!($separator)) {
+            $separator = "|";
+        }
+        echo "\nThank you, continuing...\n";
+
         $output = '';
         foreach ($this->array_columns as $column_key => $column_value) {
             $output .= "\n{$column_key}\n........\n";
             foreach ($column_value as $index => $val) {
-                $output .= "{$index}|{$val}\n";
+                $index += $startAt;
+                $output .= "{$index}$separator{$val}\n";
             }
         }
         return $output;
