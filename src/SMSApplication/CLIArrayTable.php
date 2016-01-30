@@ -11,12 +11,22 @@ class CLIArrayTable {
         if (!is_array($my2DArray) || empty($my2DArray)) {
             throw new \Exception("Sorry, constructor requires a non-empty array argument.");
         }
-        foreach ($my2DArray as $myArray) {
-            if (!is_array($myArray) || empty($myArray)) {
+        $isFirstRow = true;
+        foreach ($my2DArray as $rowNumber => $row) {
+            if (!$isFirstRow) {
+                $currentKeys = array_keys($row);
+                $intersection = array_intersect($currentKeys, $previousKeys);
+                if (count($intersection) !== count($row) || count($intersection) !== count($previousKeys)) {
+                    throw new \Exception("Sorry row $rowNumber does not contain all the keys.");
+                }
+            }
+            if (!is_array($row) || empty($row)) {
                 throw new \Exception("Sorry, constructor requires a non-empty 2D array argument.");
             } else {
                 $this->myArray = $my2DArray;
             }
+            $isFirstRow = false;
+            $previousKeys = array_keys($row);
         }
     }
 
