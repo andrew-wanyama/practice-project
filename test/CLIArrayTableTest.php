@@ -9,7 +9,7 @@ class CLIArrayTableTest extends PHPUnit_Framework_TestCase {
      * @expectedExceptionMessage Sorry, constructor requires a non-empty array argument.
      */
     public function testException_EmptyArrayConstructorArg() {
-        $this->arrayTable = new \SMSApplication\CLIArrayTable([]);
+        new \SMSApplication\CLIArrayTable([]);
     }
 
     /**
@@ -17,7 +17,7 @@ class CLIArrayTableTest extends PHPUnit_Framework_TestCase {
      * @expectedExceptionMessage Sorry, constructor requires a non-empty 2D array argument.
      */
     public function testException_InvalidConstructorArgs() {
-        $this->arrayTable = new \SMSApplication\CLIArrayTable([[], []]);
+        new \SMSApplication\CLIArrayTable([[], []]);
     }
 
     //test that output is a string
@@ -54,7 +54,7 @@ class CLIArrayTableTest extends PHPUnit_Framework_TestCase {
      * @expectedExceptionMessage Sorry, constructor requires a non-empty array argument.
      */
     public function testException_NonArrayArgs() {
-        $this->arrayTable = new \SMSApplication\CLIArrayTable('bar');
+        new \SMSApplication\CLIArrayTable('bar');
     }
 
     /**
