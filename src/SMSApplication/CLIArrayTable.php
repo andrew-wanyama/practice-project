@@ -6,6 +6,9 @@ class CLIArrayTable {
 
     private $myArray;
     private $array_columns = [];
+    private $headerSep;
+    private $rowNumbersColSep;
+    private $cellSep;
 
     public function __construct($my2DArray) {
         if (!is_array($my2DArray) || empty($my2DArray)) {
@@ -40,21 +43,47 @@ class CLIArrayTable {
         return $this->myArray;
     }
 
-    public function toString() {
+    public function toString($headerSep = '.', $rowNumbersColSep = '+', $cellSep = '|', $startCountAt = 0) {
+        $this->setHeaderSeparator($headerSep);
+        $this->setRowNumbersColSeparator($rowNumbersColSep);
+        $this->setCellSeparator($cellSep);
+
         foreach ($this->myArray as $myArrays) {
             foreach ($myArrays as $key => $value) {
-
                 $this->array_columns[$key] = array_column($this->myArray, $key);
             }
         }
         $output = '';
         foreach ($this->array_columns as $column_key => $column_value) {
-            $output .= "\n{$column_key}\n........\n";
+            $first = true;
             foreach ($column_value as $index => $val) {
-                $output .= "{$index}|{$val}\n";
+                $index += $startCountAt;
+                if ($first) {
+                    $header = "\n%8s\n{$this->rowNumbersColSep}{$this->headerSep}\n";
+                    $output .= sprintf($header, $column_key);
+                    $first = false;
+                }
+                $tableRows = "{$this->cellSep}%3d{$this->cellSep}%-7.7s{$this->cellSep}\n";
+                $output .= sprintf($tableRows, $index, $val);
             }
         }
         return $output;
+    }
+
+    private function setHeaderSeparator($headerSep) {
+        for ($i = 0; $i < 8; $i++) {
+            $this->headerSep .= $headerSep;
+        }
+    }
+
+    private function setRowNumbersColSeparator($rowNumbersColSep) {
+        for ($i = 0; $i < 5; $i++) {
+            $this->rowNumbersColSep .= $rowNumbersColSep;
+        }
+    }
+
+    private function setCellSeparator($cellSep) {
+        $this->cellSep = $cellSep;
     }
 
     public function __toString() {
