@@ -57,4 +57,24 @@ class CLIArrayTableTest extends PHPUnit_Framework_TestCase {
         new \SMSApplication\CLIArrayTable([['foo' => 'bar', 'foo' => 'baz', ['foo' => 'bar', 'foo' => 'baz']]]);
     }
 
+    public function testSetHeaderSeparator() {
+        $this->arrayTable = new \SMSApplication\CLIArrayTable([['foo' => 'bar'], ['foo' => 'baz']]);
+        $expected = $this->arrayTable->setHeaderSeparator('.');
+        $this->assertEquals($expected, '............');
+        $this->assertEquals(strlen($expected), 12);
+    }
+
+    public function testSetRowNumbersColSeparator() {
+        $this->arrayTable = new \SMSApplication\CLIArrayTable([['foo' => 'bar'], ['foo' => 'baz']]);
+        $expected = $this->arrayTable->setRowNumbersColSeparator('.');
+        $this->assertEquals($expected, '.........');
+        $this->assertEquals(strlen($expected), 9);
+    }
+
+    public function testSetCellSeparator() {
+        $this->arrayTable = new \SMSApplication\CLIArrayTable([['foo' => 'bar'], ['foo' => 'baz']]);
+        $expected = $this->arrayTable->setCellSeparator('|');
+        $this->assertEquals($expected, '|');
+    }
+
 }
