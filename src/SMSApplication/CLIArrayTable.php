@@ -6,9 +6,9 @@ class CLIArrayTable {
 
     private $myArray;
     private $array_columns = [];
-    private $headerSep;
-    private $rowNumbersColSep;
-    private $cellSep;
+    private $headerSep = '....';
+    private $rowNumbersColSep = '....';
+    private $cellSep = '|';
 
     public function __construct($my2DArray) {
         if (!is_array($my2DArray) || empty($my2DArray)) {
@@ -43,10 +43,7 @@ class CLIArrayTable {
         return $this->myArray;
     }
 
-    public function toString($headerSep = '.', $rowNumbersColSep = '+', $cellSep = '|', $startCountAt = 0) {
-        $this->setHeaderSeparator($headerSep);
-        $this->setRowNumbersColSeparator($rowNumbersColSep);
-        $this->setCellSeparator($cellSep);
+    public function toString($startCountAt = 0) {
 
         foreach ($this->myArray as $myArrays) {
             foreach ($myArrays as $key => $value) {
@@ -59,31 +56,34 @@ class CLIArrayTable {
             foreach ($column_value as $index => $val) {
                 $index += $startCountAt;
                 if ($first) {
-                    $header = "\n%8s\n{$this->rowNumbersColSep}{$this->headerSep}\n";
+                    $header = "\n%s\n{$this->rowNumbersColSep}{$this->headerSep}\n";
                     $output .= sprintf($header, $column_key);
                     $first = false;
                 }
-                $tableRows = "{$this->cellSep}%3d{$this->cellSep}%-7.7s{$this->cellSep}\n";
+                $tableRows = "%d{$this->cellSep}%s\n";
                 $output .= sprintf($tableRows, $index, $val);
             }
         }
         return $output;
     }
 
-    private function setHeaderSeparator($headerSep) {
+    public function setHeaderSeparator($headerSep) {
         for ($i = 0; $i < 8; $i++) {
             $this->headerSep .= $headerSep;
         }
+        return $this->headerSep;
     }
 
-    private function setRowNumbersColSeparator($rowNumbersColSep) {
+    public function setRowNumbersColSeparator($rowNumbersColSep) {
         for ($i = 0; $i < 5; $i++) {
             $this->rowNumbersColSep .= $rowNumbersColSep;
         }
+        return $this->rowNumbersColSep;
     }
 
-    private function setCellSeparator($cellSep) {
+    public function setCellSeparator($cellSep) {
         $this->cellSep = $cellSep;
+        return $this->cellSep;
     }
 
     public function __toString() {
