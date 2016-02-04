@@ -29,10 +29,10 @@ class CLIArrayTableTest extends PHPUnit_Framework_TestCase {
     //assert correct representation of array as a string
     public function testToString_RightFormat() {
         $this->arrayTable = new \SMSApplication\CLIArrayTable([['foo' => 'bar'], ['foo' => 'baz']]);
-        $strOutput = "\n     foo\n+++++--------\n";
-        $strOutput .= "|  1|bar    |\n";
-        $strOutput .= "|  2|baz    |\n";
-        $this->assertEquals($this->arrayTable->toString('-', '+', '|', 1), $strOutput);
+        $strOutput = "\nfoo\n........\n";
+        $strOutput .= "0|bar\n";
+        $strOutput .= "1|baz\n";
+        $this->assertEquals($this->arrayTable->toString(), $strOutput);
     }
 
     /**
