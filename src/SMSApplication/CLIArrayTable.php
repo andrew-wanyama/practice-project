@@ -51,16 +51,34 @@ class CLIArrayTable {
             }
         }
         $output = '';
+
         foreach ($this->array_columns as $column_key => $column_value) {
+            $maxKey = max(array_keys($column_value));
+
+            $strLengths = array_map('strlen', $column_value);
+            $maxWidth = max($strLengths);
+            if (strlen($column_key) > $maxWidth) {
+                $maxWidth = strlen($column_key);
+            }
+            $maxHeaderSep = str_repeat($this->headerSep, $maxWidth);
+
             $first = true;
             foreach ($column_value as $index => $val) {
                 $index += $startCountAt;
+
+                $maxKeyLength = strlen($maxKey);
+                if (strlen($index) > $maxKeyLength) {
+                    $maxKeyLength = strlen($index);
+                }
+                $numsColHeaderSep = str_repeat($this->headerSep, $maxKeyLength);
                 if ($first) {
-                    $header = "\n%s\n{$this->rowNumbersColSep}{$this->headerSep}\n";
-                    $output .= sprintf($header, $column_key);
+                    $header = "\n%{$maxKeyLength}s{$this->rowNumbersColSep}%-{$maxWidth}s{$this->cellSep}\n"
+                            . "{$numsColHeaderSep}{$this->rowNumbersColSep}{$maxHeaderSep}{$this->cellSep}\n";
+                    $output .= sprintf($header, "", $column_key);
                     $first = false;
                 }
-                $tableRows = "%d{$this->cellSep}%s\n";
+                $tableRows = "%{$maxKeyLength}d{$this->rowNumbersColSep}%-{$maxWidth}s{$this->cellSep}\n"
+                        . "{$numsColHeaderSep}{$this->rowNumbersColSep}{$maxHeaderSep}{$this->cellSep}\n";
                 $output .= sprintf($tableRows, $index, $val);
             }
         }
