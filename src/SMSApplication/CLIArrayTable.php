@@ -6,8 +6,8 @@ class CLIArrayTable {
 
     private $myArray;
     private $array_columns = [];
-    private $headerSep = '....';
-    private $rowNumbersColSep = '....';
+    private $headerSep = '.';
+    private $rowNumbersColSep = '|';
     private $cellSep = '|';
 
     public function __construct($my2DArray) {
@@ -68,22 +68,24 @@ class CLIArrayTable {
     }
 
     public function setHeaderSeparator($headerSep) {
-        for ($i = 0; $i < 8; $i++) {
-            $this->headerSep .= $headerSep;
+        if ((!is_string($headerSep)) || (strlen($headerSep) !== 1)) {
+            throw new \Exception("Please provide a single character for the header separator.");
         }
-        return $this->headerSep;
+        $this->headerSep = $headerSep;
     }
 
     public function setRowNumbersColSeparator($rowNumbersColSep) {
-        for ($i = 0; $i < 5; $i++) {
-            $this->rowNumbersColSep .= $rowNumbersColSep;
+        if ((!is_string($rowNumbersColSep)) || (strlen($rowNumbersColSep) !== 1)) {
+            throw new \Exception("Please provide a single character for the row numbers column separator.");
         }
-        return $this->rowNumbersColSep;
+        $this->rowNumbersColSep = $rowNumbersColSep;
     }
 
     public function setCellSeparator($cellSep) {
+        if ((!is_string($cellSep)) || (strlen($cellSep) !== 1)) {
+            throw new \Exception("Please provide a single character for the cell separator.");
+        }
         $this->cellSep = $cellSep;
-        return $this->cellSep;
     }
 
     public function __toString() {
