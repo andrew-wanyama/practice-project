@@ -4,6 +4,10 @@ class CLIArrayTableTest extends PHPUnit_Framework_TestCase {
 
     private $arrayTable;
 
+    public function setUp() {
+        $this->arrayTable = new \SMSApplication\CLIArrayTable([['foo' => 'bar'], ['foo' => 'baz']]);
+    }
+
     /**
      * @expectedException Exception
      * @expectedExceptionMessage Sorry, constructor requires a non-empty array argument.
@@ -57,24 +61,25 @@ class CLIArrayTableTest extends PHPUnit_Framework_TestCase {
         new \SMSApplication\CLIArrayTable([['foo' => 'bar', 'foo' => 'baz', ['foo' => 'bar', 'foo' => 'baz']]]);
     }
 
+    /**
+     * @expectedException Exception
+     */
     public function testSetHeaderSeparator() {
-        $this->arrayTable = new \SMSApplication\CLIArrayTable([['foo' => 'bar'], ['foo' => 'baz']]);
-        $expected = $this->arrayTable->setHeaderSeparator('.');
-        $this->assertEquals($expected, '............');
-        $this->assertEquals(strlen($expected), 12);
+        $this->arrayTable->setHeaderSeparator('...');
     }
 
+    /**
+     * @expectedException Exception
+     */
     public function testSetRowNumbersColSeparator() {
-        $this->arrayTable = new \SMSApplication\CLIArrayTable([['foo' => 'bar'], ['foo' => 'baz']]);
-        $expected = $this->arrayTable->setRowNumbersColSeparator('.');
-        $this->assertEquals($expected, '.........');
-        $this->assertEquals(strlen($expected), 9);
+        $this->arrayTable->setRowNumbersColSeparator('|||');
     }
 
+    /**
+     * @expectedException Exception
+     */
     public function testSetCellSeparator() {
-        $this->arrayTable = new \SMSApplication\CLIArrayTable([['foo' => 'bar'], ['foo' => 'baz']]);
-        $expected = $this->arrayTable->setCellSeparator('|');
-        $this->assertEquals($expected, '|');
+        $this->arrayTable->setCellSeparator(2);
     }
 
 }
