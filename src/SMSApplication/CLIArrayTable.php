@@ -45,44 +45,57 @@ class CLIArrayTable {
 
     public function toString($startCountAt = 0) {
 
-        foreach ($this->myArray as $myArrays) {
-            foreach ($myArrays as $key => $value) {
-                $this->array_columns[$key] = array_column($this->myArray, $key);
-            }
+        foreach ($this->myArray[0] as $key => $value) {
+            $this->array_columns[$key] = array_column($this->myArray, $key);
         }
         $output = '';
 
-        foreach ($this->array_columns as $column_key => $column_value) {
-            $maxKey = max(array_keys($column_value));
+        $maxColWidths = $this->calculateMaxWidths($this->array_columns, $startCountAt);
+        $output .= sprintf("%{$maxColWidths['row_num_col']}s%s", "", $this->rowNumbersColSep);
+        $headerKeys = array_keys($this->array_columns);
 
-            $strLengths = array_map('strlen', $column_value);
-            $maxWidth = max($strLengths);
-            if (strlen($column_key) > $maxWidth) {
-                $maxWidth = strlen($column_key);
+        foreach ($headerKeys as $heading) {
+            $headingFormat = "%-{$maxColWidths[$heading]}s{$this->cellSep}";
+            $output .= sprintf($headingFormat, $heading);
+        }
+        $output .= "\n";
+
+        foreach ($maxColWidths as $maxColWidth) {
+            $output .= sprintf("%{$maxColWidth}s%s", str_repeat($this->headerSep, $maxColWidth), $this->cellSep);
+        }
+        $output .= "\n";
+
+        for ($row = 0, $maxRows = count(array_values($this->array_columns)[0]); $row < $maxRows; $row++) {
+            $output .= sprintf("%{$maxColWidths['row_num_col']}d%s", $startCountAt, $this->rowNumbersColSep);
+            $keysCount = 0;
+            foreach (array_values($this->array_columns) as $data) {
+                $maxDataWidth = $maxColWidths[$headerKeys[$keysCount]];
+                $output .= sprintf("%-{$maxDataWidth}s%s", $data[$row], $this->cellSep);
+                $keysCount += 1;
             }
-            $maxHeaderSep = str_repeat($this->headerSep, $maxWidth);
-
-            $first = true;
-            foreach ($column_value as $index => $val) {
-                $index += $startCountAt;
-
-                $maxKeyLength = strlen($maxKey);
-                if (strlen($index) > $maxKeyLength) {
-                    $maxKeyLength = strlen($index);
-                }
-                $numsColHeaderSep = str_repeat($this->headerSep, $maxKeyLength);
-                if ($first) {
-                    $header = "\n%{$maxKeyLength}s{$this->rowNumbersColSep}%-{$maxWidth}s{$this->cellSep}\n"
-                            . "{$numsColHeaderSep}{$this->rowNumbersColSep}{$maxHeaderSep}{$this->cellSep}\n";
-                    $output .= sprintf($header, "", $column_key);
-                    $first = false;
-                }
-                $tableRows = "%{$maxKeyLength}d{$this->rowNumbersColSep}%-{$maxWidth}s{$this->cellSep}\n"
-                        . "{$numsColHeaderSep}{$this->rowNumbersColSep}{$maxHeaderSep}{$this->cellSep}\n";
-                $output .= sprintf($tableRows, $index, $val);
+            $startCountAt += 1;
+            $output .= "\n";
+            foreach ($maxColWidths as $maxColWidth) {
+                $output .= sprintf("%{$maxColWidth}s%s", str_repeat($this->headerSep, $maxColWidth), $this->cellSep);
             }
+            $output .= "\n";
         }
         return $output;
+    }
+
+    private function calculateMaxWidths($array, $startCountAt) {
+        $maxWidths = array();
+        foreach ($array as $columnKey => $value) {
+            $maxWidths['row_num_col'] = strlen($startCountAt + max(array_keys($value)));
+            $keyLength = strlen($columnKey);
+            $strLengths = array_map('strlen', $value);
+            $maxWidth = max($strLengths);
+            if ($keyLength > $maxWidth) {
+                $maxWidth = $keyLength;
+            }
+            $maxWidths[$columnKey] = $maxWidth;
+        }
+        return $maxWidths;
     }
 
     public function setHeaderSeparator($headerSep) {
