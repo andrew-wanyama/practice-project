@@ -26,16 +26,18 @@ class CLIArrayTableTest extends PHPUnit_Framework_TestCase {
 
     //test that output is a string
     public function testToString() {
-        $this->arrayTable = new \SMSApplication\CLIArrayTable([['foo' => 'bar'], ['foo' => 'baz']]);
         $this->assertTrue(is_string($this->arrayTable->toString()));
     }
 
     //assert correct representation of array as a string
     public function testToString_RightFormat() {
-        $this->arrayTable = new \SMSApplication\CLIArrayTable([['foo' => 'bar'], ['foo' => 'baz']]);
-        $strOutput = "\nfoo\n........\n";
-        $strOutput .= "0|bar\n";
-        $strOutput .= "1|baz\n";
+        $this->arrayTable->toString(0);
+        $this->arrayTable->setHeaderSeparator(".");
+        $this->arrayTable->setRowNumbersColSeparator("|");
+        $this->arrayTable->setCellSeparator("|");
+        $strOutput = " |foo|\n.|...|\n";
+        $strOutput .= "0|bar|\n.|...|\n";
+        $strOutput .= "1|baz|\n.|...|\n";
         $this->assertEquals($this->arrayTable->toString(), $strOutput);
     }
 
